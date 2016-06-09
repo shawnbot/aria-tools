@@ -1,6 +1,6 @@
 {
-  "name": "aria-toolbox",
-  "version": "1.0.0",
+  "name": "aria-tools",
+  "version": "0.0.1",
   "description": "",
   "main": "webpack.config.js",
   "scripts": {
