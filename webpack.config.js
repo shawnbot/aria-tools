@@ -2,7 +2,8 @@ const webpack = require('webpack');
 
 const config = {
   entry: {
-    'aria-tools': './lib/bundle.js'
+    'aria-tools':     './lib/bundle.js',
+    'aria-elements':  './elements/bundle.js'
   },
 
   output: {

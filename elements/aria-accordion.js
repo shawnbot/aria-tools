@@ -1,52 +1,42 @@
-const Tablist = require('../roles/tablist');
+const Tablist = require('../lib/roles/tablist');
 
-const prop = function(value) {
-  return {value: value};
-};
+const Accordion = document.registerElement('aria-accordion', {
+  prototype: Object.create(
+    window.HTMLElement.prototype,
+    {
+      attachedCallback: {value: function() {
+        Tablist.setup(this);
+      }},
 
-const Accordion = {};
+      detachedCallback: {value: function() {
+        Tablist.teardown(this);
+      }},
 
-Accordion.prototype = Object.create(
-  window.HTMLElement.prototype,
-  {
-    attachedCallback: prop(function() {
-      Tablist.setup(this);
-    }),
+      selectTab: {value: function(tab) {
+        return Tablist.selectTab(this, tab);
+      }},
 
-    detachedCallback: prop(function() {
-      Tablist.teardown(this);
-    }),
+      selectTabByIndex: {value: function(index) {
+        return Tablist.selectTabByIndex(this, index);
+      }},
 
-    selectTab: prop(function(tab) {
-      return Tablist.selectTab(this, tab);
-    }),
+      selectTabByPanelId: {value: function(id) {
+        return Tablist.selectTabByPanelId(this, id);
+      }},
 
-    selectTabByIndex: prop(function(index) {
-      return Tablist.selectTabByIndex(this, index);
-    }),
+      tabs: {
+        get: function() {
+          return Tablist.getTabs(this);
+        }
+      },
 
-    selectTabByPanelId: prop(function(id) {
-      return Tablist.selectTabByPanelId(this, id);
-    }),
-
-    tabs: {
-      get: function() {
-        return Tablist.getTabs(this);
-      }
-    },
-
-    panels: {
-      get: function() {
-        return Tablist.getPanels(this);
+      panels: {
+        get: function() {
+          return Tablist.getPanels(this);
+        }
       }
     }
-  }
-);
-
-Accordion.register = function(name) {
-  return document.registerElement(name, {
-    prototype: Accordion.prototype
-  });
-};
+  )
+});
 
 module.exports = Accordion;
