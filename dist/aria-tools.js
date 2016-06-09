@@ -44,16 +44,19 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// polyfill document.registerElement()
 	__webpack_require__(1);
+	// polyfill KeyboardEvent.prototype.key
+	__webpack_require__(2).polyfill();
 
 	window.ariaTools = {
-	  getAncestor:  __webpack_require__(2),
-	  getSibling:   __webpack_require__(3),
+	  getAncestor:  __webpack_require__(3),
+	  getSibling:   __webpack_require__(4),
 
-	  attributes:   __webpack_require__(4),
-	  roles:        __webpack_require__(5),
-	  selectors:    __webpack_require__(8),
-	  widgets:      __webpack_require__(10)
+	  attributes:   __webpack_require__(5),
+	  roles:        __webpack_require__(6),
+	  selectors:    __webpack_require__(9),
+	  widgets:      __webpack_require__(11)
 	};
 
 
@@ -66,11 +69,140 @@
 
 /***/ },
 /* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/* global define, KeyboardEvent, module */
+
+	(function () {
+
+	  var keyboardeventKeyPolyfill = {
+	    polyfill: polyfill,
+	    keys: {
+	      3: 'Cancel',
+	      6: 'Help',
+	      8: 'Backspace',
+	      9: 'Tab',
+	      12: 'Clear',
+	      13: 'Enter',
+	      16: 'Shift',
+	      17: 'Control',
+	      18: 'Alt',
+	      19: 'Pause',
+	      20: 'CapsLock',
+	      27: 'Escape',
+	      28: 'Convert',
+	      29: 'NonConvert',
+	      30: 'Accept',
+	      31: 'ModeChange',
+	      32: ' ',
+	      33: 'PageUp',
+	      34: 'PageDown',
+	      35: 'End',
+	      36: 'Home',
+	      37: 'ArrowLeft',
+	      38: 'ArrowUp',
+	      39: 'ArrowRight',
+	      40: 'ArrowDown',
+	      41: 'Select',
+	      42: 'Print',
+	      43: 'Execute',
+	      44: 'PrintScreen',
+	      45: 'Insert',
+	      46: 'Delete',
+	      48: ['0', ')'],
+	      49: ['1', '!'],
+	      50: ['2', '@'],
+	      51: ['3', '#'],
+	      52: ['4', '$'],
+	      53: ['5', '%'],
+	      54: ['6', '^'],
+	      55: ['7', '&'],
+	      56: ['8', '*'],
+	      57: ['9', '('],
+	      91: 'OS',
+	      93: 'ContextMenu',
+	      144: 'NumLock',
+	      145: 'ScrollLock',
+	      181: 'VolumeMute',
+	      182: 'VolumeDown',
+	      183: 'VolumeUp',
+	      186: [';', ':'],
+	      187: ['=', '+'],
+	      188: [',', '<'],
+	      189: ['-', '_'],
+	      190: ['.', '>'],
+	      191: ['/', '?'],
+	      192: ['`', '~'],
+	      219: ['[', '{'],
+	      220: ['\\', '|'],
+	      221: [']', '}'],
+	      222: ["'", '"'],
+	      224: 'Meta',
+	      225: 'AltGraph',
+	      246: 'Attn',
+	      247: 'CrSel',
+	      248: 'ExSel',
+	      249: 'EraseEof',
+	      250: 'Play',
+	      251: 'ZoomOut'
+	    }
+	  };
+
+	  // Function keys (F1-24).
+	  var i;
+	  for (i = 1; i < 25; i++) {
+	    keyboardeventKeyPolyfill.keys[111 + i] = 'F' + i;
+	  }
+
+	  // Printable ASCII characters.
+	  var letter = '';
+	  for (i = 65; i < 91; i++) {
+	    letter = String.fromCharCode(i);
+	    keyboardeventKeyPolyfill.keys[i] = [letter.toLowerCase(), letter.toUpperCase()];
+	  }
+
+	  function polyfill () {
+	    if (!('KeyboardEvent' in window) ||
+	        'key' in KeyboardEvent.prototype) {
+	      return false;
+	    }
+
+	    // Polyfill `key` on `KeyboardEvent`.
+	    var proto = {
+	      get: function (x) {
+	        var key = keyboardeventKeyPolyfill.keys[this.which || this.keyCode];
+
+	        if (Array.isArray(key)) {
+	          key = key[+this.shiftKey];
+	        }
+
+	        return key;
+	      }
+	    };
+	    Object.defineProperty(KeyboardEvent.prototype, 'key', proto);
+	    return proto;
+	  }
+
+	  if (true) {
+	    !(__WEBPACK_AMD_DEFINE_FACTORY__ = (keyboardeventKeyPolyfill), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	  } else if (typeof exports !== 'undefined' && typeof module !== 'undefined') {
+	    module.exports = keyboardeventKeyPolyfill;
+	  } else if (window) {
+	    window.keyboardeventKeyPolyfill = keyboardeventKeyPolyfill;
+	  }
+
+	})();
+
+
+/***/ },
+/* 3 */
 /***/ function(module, exports) {
 
 	module.exports = function getAncestor(el, selector) {
 	  while (el = el.parentNode) {
-	    if (el.matches(selector)) {
+	    if (el === document) {
+	      return;
+	    } else if (el.matches(selector)) {
 	      return el;
 	    }
 	  }
@@ -78,7 +210,7 @@
 
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports) {
 
 	module.exports = function getSibling(el, selector, direction) {
@@ -92,7 +224,7 @@
 
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports) {
 
 	
@@ -108,22 +240,22 @@
 
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = {
-	  tab: __webpack_require__(6),
-	  tablist: __webpack_require__(9)
+	  tab: __webpack_require__(7),
+	  tablist: __webpack_require__(10)
 	};
 
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var A = __webpack_require__(4);
-	var E = __webpack_require__(7);
-	var S = __webpack_require__(8);
+	var A = __webpack_require__(5);
+	var E = __webpack_require__(8);
+	var S = __webpack_require__(9);
 	var TRUE = 'true';
 
 	var toggle = function(tab, expanded) {
@@ -158,21 +290,27 @@
 	  return document.getElementById(id);
 	};
 
-	var onclick = E.delegate(
-	  S.TAB,
-	  E.targetAdapter(toggle)
-	);
+	var onclick = E.targetAdapter(toggle);
+
+	var addEventListeners = function(tab) {
+	  tab.addEventListener(E.CLICK, onclick);
+	};
+
+	var removeEventListeners = function(tab) {
+	  tab.removeEventListener(E.CLICK, onclick);
+	};
 
 	module.exports.role = 'tab';
 	module.exports.getTab = getTab;
 	module.exports.getTarget = getTarget;
 	module.exports.update = update;
 	module.exports.toggle = toggle;
-	module.exports.onclick = onclick;
+	module.exports.addEventListeners = addEventListeners;
+	module.exports.removeEventListeners = removeEventListeners;
 
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports) {
 
 	var slice = Array.prototype.slice;
@@ -181,6 +319,8 @@
 	  return function(event) {
 	    if (event.target.matches(selector)) {
 	      return callback.apply(this, arguments);
+	    } else {
+	      // console.warn('ignoring event:', event.type, 'not', selector);
 	    }
 	  };
 	};
@@ -204,21 +344,24 @@
 	  };
 	};
 
+	var MOD_SEPARATOR = '+';
 	var MODIFIERS = [
 	  'Alt',
 	  'Control',
 	  'Meta',
 	  'Shift',
 	];
-
-	var MOD_SEPARATOR = '+';
+	var OS = 'OS';
 
 	var keymap = function(map) {
 	  var respectModifiers = Object.keys(map).some(function(key) {
-	    return key.indexOf('+') > -1;
+	    return key.indexOf(MOD_SEPARATOR) > -1;
 	  });
 	  return function(event) {
 	    var key = event.key;
+	    if (key === OS || MODIFIERS.indexOf(key) > -1) {
+	      return;
+	    }
 	    if (respectModifiers) {
 	      MODIFIERS.forEach(function(modifier) {
 	        if (event.getModifierState(modifier)) {
@@ -228,6 +371,8 @@
 	    }
 	    if (key in map) {
 	      return map[key].call(this, event);
+	    } else {
+	      // console.warn('ignoring key press:', key, event.key);
 	    }
 	  };
 	};
@@ -237,9 +382,12 @@
 	module.exports.keymap = keymap;
 	module.exports.targetAdapter = targetAdapter;
 
+	module.exports.CLICK = 'click';
+	module.exports.KEYDOWN = 'keydown';
+
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports) {
 
 	// tab-related roles
@@ -249,17 +397,37 @@
 
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var A = __webpack_require__(4);
-	var E = __webpack_require__(7);
-	var S = __webpack_require__(8);
-	var Tab = __webpack_require__(6);
+	var A = __webpack_require__(5);
+	var E = __webpack_require__(8);
+	var S = __webpack_require__(9);
+	var Tab = __webpack_require__(7);
 
-	var getAncestor = __webpack_require__(2);
-	var getSibling = __webpack_require__(3);
+	var getAncestor = __webpack_require__(3);
+	var getSibling = __webpack_require__(4);
 	var slice = Array.prototype.slice;
+
+	var setup = function(tablist) {
+	  tablist.setAttribute('role', 'tablist');
+	  addEventListeners(tablist);
+
+	  var selected = getSelectedTab(tablist);
+	  if (selected) {
+	    selectTab(tablist, selected);
+	  } else {
+	    selectTabByIndex(tablist, 0);
+	  }
+	};
+
+	var teardown = function(tablist) {
+	  removeEventListeners(tablist);
+	};
+
+	var getSelectedTab = function(tablist) {
+	  return tablist.querySelector(S.TAB + '[aria-expanded=true]');
+	};
 
 	var getTablist = function(el) {
 	  return el.matches(S.TABLIST)
@@ -312,79 +480,98 @@
 	  return slice.call(tablist.querySelectorAll(S.TABPANEL));
 	};
 
-	var selectPrevTab = function(event) {
-	  var tab = getSibling(event.target, S.TAB, -1);
-	  if (tab) {
-	    selectTab(this, tab);
-	  }
+	var getTabRelativeTo = function(tab, direction) {
+	  var tablist = getTablist(tab);
+	  var tabs = getTabs(tablist);
+	  var index = tabs.indexOf(tab) + direction;
+	  return tabs[index];
 	};
 
-	var selectNextTab = function(event) {
-	  var tab = getSibling(event.target, S.TAB, +1);
+	var selectPrevTab = E.delegate(S.TAB, function(event) {
+	  var tab = getTabRelativeTo(event.target, -1);
 	  if (tab) {
 	    selectTab(this, tab);
+	    tab.focus();
+	  } else {
+	    // console.warn('no previous tab:', event.target);
 	  }
-	};
+	});
 
-	var selectOwnTab = function(event) {
+	var selectNextTab = E.delegate(S.TAB, function(event) {
+	  var tab = getTabRelativeTo(event.target, +1);
+	  if (tab) {
+	    selectTab(this, tab);
+	    tab.focus();
+	  } else {
+	    // console.warn('no next tab:', event.target);
+	  }
+	});
+
+	var selectOwnTab = E.delegate(S.TABPANEL, function(event) {
 	  var tab = selectTabByPanelId(event.target);
 	  if (tab) {
 	    tab.focus();
 	  }
-	};
+	});
 
-	var selectPrevPanel = function(event) {
+	var selectPrevPanel = E.delegate(S.TABPANEL, function(event) {
 	  var panel = getSibling(event.target, S.TABPANEL, -1);
 	  if (panel) {
 	    var tab = getTab(panel);
 	    selectTab(this, tab);
 	    tab.focus();
 	  }
-	};
+	});
 
-	var selectLastTab = function(event) {
+	var selectLastTab = E.delegate(S.TAB, function(event) {
 	  var tab = selectTabByIndex(this, -1);
 	  if (tab) {
 	    tab.focus();
 	  }
-	};
+	});
 
-	var selectFirstTab = function(event) {
+	var selectFirstTab = E.delegate(S.TAB, function(event) {
 	  var tab = selectTabByIndex(this, 0);
 	  if (tab) {
 	    tab.focus();
 	  }
-	};
+	});
 
 	var onclick = E.delegate(S.TAB, function(event) {
 	  selectTab(this, event.target);
 	});
 
 	var onkeydown = E.keymap({
-	  'ArrowLeft':        E.delegate(S.TAB, selectPrevTab),
-	  'ArrowRight':       E.delegate(S.TAB, selectNextTab),
-	  'ArrowUp':          E.delegate(S.TAB, selectPrevTab),
-	  'ArrowDown':        E.delegate(S.TAB, selectNextTab),
-	  'Control+ArrowUp':  E.delegate(S.TABPANEL, selectOwnTab),
+	  'ArrowLeft':    selectPrevTab,
+	  'ArrowRight':   selectNextTab,
+	  'ArrowUp':      selectPrevTab,
+	  'ArrowDown':    selectNextTab,
+	  'Alt+ArrowUp':  selectOwnTab,
 	  'Control+PageUp':   E.all(
-	    E.delegate(S.TABPANEL, selectPrevPanel),
-	    E.delegate(S.TAB, selectLastTab)
+	    selectPrevPanel,
+	    selectLastTab
 	  ),
 	  'Control+PageDown': E.all(
-	    E.delegate(S.TABPANEL, selectOwnTab),
-	    E.delegate(S.TAB, selectFirstTab)
+	    selectOwnTab,
+	    selectFirstTab
 	  )
 	});
 
 	var addEventListeners = function(tablist) {
-	  tablist.addEventListener('click', onclick);
-	  tablist.addEventListener('keydown', onkeydown);
+	  tablist.addEventListener(E.CLICK, onclick);
+	  tablist.addEventListener(E.KEYDOWN, onkeydown);
 	};
 
 	var removeEventListeners = function(tablist) {
-	  tablist.removeEventListener('click', onclick);
-	  tablist.removeEventListener('keydown', onkeydown);
+	  tablist.removeEventListener(E.CLICK, onclick);
+	  tablist.removeEventListener(E.KEYDOWN, onkeydown);
 	};
+
+	module.exports.setup = setup;
+	module.exports.teardown = teardown;
+
+	module.exports.addEventListeners = addEventListeners;
+	module.exports.removeEventListeners = removeEventListeners;
 
 	module.exports.getPanels = getPanels;
 	module.exports.getTabs = getTabs;
@@ -392,40 +579,23 @@
 	module.exports.selectTab = selectTab;
 	module.exports.selectTabByIndex = selectTabByIndex;
 	module.exports.selectTabByPanelId = selectTabByPanelId;
-	module.exports.addEventListeners = addEventListeners;
-	module.exports.removeEventListeners = removeEventListeners;
-
-
-/***/ },
-/* 10 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = {
-	  accordion: __webpack_require__(11)
-	};
 
 
 /***/ },
 /* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var S = __webpack_require__(8);
-	var Tablist = __webpack_require__(9);
-
-	var attached = function() {
-	  Tablist.addEventListeners(this);
-
-	  var selected = this.querySelector(S.TAB + '[aria-expanded=true]');
-	  if (selected) {
-	    Tablist.selectTab(this, selected);
-	  } else {
-	    Tablist.selectTabByIndex(this, 0);
-	  }
+	module.exports = {
+	  accordion: __webpack_require__(12)
 	};
 
-	var detached = function() {
-	  Tablist.removeEventListeners(this);
-	};
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var S = __webpack_require__(9);
+	var Tablist = __webpack_require__(10);
 
 	var prop = function(value) {
 	  return {value: value};
@@ -436,8 +606,13 @@
 	Accordion.prototype = Object.create(
 	  window.HTMLElement.prototype,
 	  {
-	    attachedCallback: prop(attached),
-	    detachedCallback: prop(detached),
+	    attachedCallback: prop(function() {
+	      Tablist.setup(this);
+	    }),
+
+	    detachedCallback: prop(function() {
+	      Tablist.teardown(this);
+	    }),
 
 	    selectTab: prop(function(tab) {
 	      return Tablist.selectTab(this, tab);
