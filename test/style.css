@@ -8,17 +8,9 @@
   -webkit-appearance: none;
 }
 
-[role=tab]:before {
-  content: '+ ';
-}
-
 [role=tab][aria-expanded=true] {
   background: #000;
   color: #fff;
-}
-
-[role=tab][aria-expanded=true]:before {
-  content: '- ';
 }
 
 [aria-hidden=true] {
