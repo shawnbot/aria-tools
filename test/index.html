@@ -2,42 +2,64 @@
 <html lang="en">
   <head>
     <title>ARIA Tools</title>
-    <style>
-      [aria-hidden=true] {
-        opacity: 0.1;
-      }
-    </style>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <aria-accordion>
 
-      <h1>
+    <h1>Accordion (exclusive)</h1>
+    <aria-accordion>
+      <h2>
         <button role="tab" aria-controls="content-1">
           Section 1
         </button>
-      </h1>
+      </h2>
       <div role="tabpanel" id="content-1">
         <p>This is content section 1.</p>
       </div>
-
-      <h1>
+      <h2>
         <button role="tab" aria-controls="content-2">
           Section 2
         </button>
-      </h1>
+      </h2>
       <div role="tabpanel" id="content-2">
         <p>This is content section 2.</p>
       </div>
-
-      <h1>
+      <h2>
         <button role="tab" aria-controls="content-3">
           Section 3
         </button>
-      </h1>
+      </h2>
       <div role="tabpanel" id="content-3">
         <p>This is content section 3.</p>
       </div>
+    </aria-accordion>
 
+    <h1>Accordion (multi-selectable)</h1>
+    <aria-accordion aria-multiselectable="true">
+      <h2>
+        <button role="tab" aria-controls="content-1b">
+          Section 1
+        </button>
+      </h2>
+      <div role="tabpanel" id="content-1b">
+        <p>This is content section 1.</p>
+      </div>
+      <h2>
+        <button role="tab" aria-expanded="true" aria-controls="content-2b">
+          Section 2
+        </button>
+      </h2>
+      <div role="tabpanel" id="content-2b">
+        <p>This is content section 2.</p>
+      </div>
+      <h2>
+        <button role="tab" aria-expanded="true" aria-controls="content-3b">
+          Section 3
+        </button>
+      </h2>
+      <div role="tabpanel" id="content-3b">
+        <p>This is content section 3.</p>
+      </div>
     </aria-accordion>
 
     <script src="../dist/aria-tools.js"></script>
