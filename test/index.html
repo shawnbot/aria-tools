@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ARIA Tools</title>
+    <style>
+      [aria-hidden=true] {
+        opacity: 0.1;
+      }
+    </style>
+  </head>
+  <body>
+    <aria-accordion>
+
+      <h1>
+        <button role="tab" aria-controls="content-1">
+          Section 1
+        </button>
+      </h1>
+      <div role="tabpanel" id="content-1">
+        <p>This is content section 1.</p>
+      </div>
+
+      <h1>
+        <button role="tab" aria-controls="content-2">
+          Section 2
+        </button>
+      </h1>
+      <div role="tabpanel" id="content-2">
+        <p>This is content section 2.</p>
+      </div>
+
+      <h1>
+        <button role="tab" aria-controls="content-3">
+          Section 3
+        </button>
+      </h1>
+      <div role="tabpanel" id="content-3">
+        <p>This is content section 3.</p>
+      </div>
+
+    </aria-accordion>
+
+    <script src="../dist/aria-tools.js"></script>
+    <script>
+      ariaTools.widgets.accordion.register('aria-accordion');
+    </script>
+  </body>
+</html>

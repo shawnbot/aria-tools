@@ -5,6 +5,8 @@
   "main": "webpack.config.js",
   "scripts": {
     "build": "webpack",
+    "watch": "webpack --watch",
+    "start": "http-server",
     "test": "mocha"
   },
   "keywords": [],
@@ -14,6 +16,7 @@
     "babel-core": "^6.9.1",
     "babel-loader": "^6.2.4",
     "babel-preset-es2015": "^6.9.0",
+    "http-server": "^0.9.0",
     "webpack": "^1.13.1"
   },
   "dependencies": {
