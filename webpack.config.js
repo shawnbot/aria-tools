@@ -11,6 +11,7 @@ const config = {
     sourceMapFilename: '[name].js.map'
   },
 
+  devtool: 'source-map',
   plugins: [
     new webpack.optimize.UglifyJsPlugin({minimize: true})
   ]
