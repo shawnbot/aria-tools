@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ARIA Tools: Tab tests</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="/dist/aria-tools.js"></script>
+  </head>
+  <body>
+
+    <ul role="tablist">
+      <li><button role="tab" aria-expanded="true" aria-controls="content1">Tab 1</button></li>
+      <li><button role="tab" aria-controls="content2">Tab 2</button></li>
+      <li><button role="tab" aria-controls="content3">Tab 3</button></li>
+    </ul>
+
+    <section>
+      <div id="content1" role="tabpanel">Content 1</div>
+      <div id="content2" role="tabpanel">Content 2</div>
+      <div id="content3" role="tabpanel">Content 3</div>
+    </section>
+
+  </body>
+</html>
