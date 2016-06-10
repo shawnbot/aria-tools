@@ -1,3 +1,4 @@
 .*.sw?
+.screenshots
 node_modules
 npm-debug.log
