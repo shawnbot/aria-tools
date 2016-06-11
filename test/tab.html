@@ -7,17 +7,64 @@
   </head>
   <body>
 
-    <ul role="tablist">
-      <li><button role="tab" aria-expanded="true" aria-controls="content1">Tab 1</button></li>
-      <li><button role="tab" aria-controls="content2">Tab 2</button></li>
-      <li><button role="tab" aria-controls="content3">Tab 3</button></li>
-    </ul>
+    <h1>Tabs</h1>
 
-    <section>
-      <div id="content1" role="tabpanel">Content 1</div>
-      <div id="content2" role="tabpanel">Content 2</div>
-      <div id="content3" role="tabpanel">Content 3</div>
+    <button id="setup">setup</button>
+    <button id="teardown">teardown</button>
+
+    <section id="li-roles" class="test-suite">
+      <h1>List with <code>&lt;li role="tab"&gt;&lt;button/&gt;&lt;/li&gt;</code></h1>
+      <ul role="tablist">
+        <li role="tab" aria-expanded="true" aria-controls="content1"><button>Tab 1</button></li>
+        <li role="tab" aria-controls="content2"><button>Tab 2</button></li>
+        <li role="tab" aria-controls="content3"><button>Tab 3</button></li>
+      </ul>
+
+      <section id="content1" role="tabpanel">Content 1</section>
+      <section id="content2" role="tabpanel">Content 2</section>
+      <section id="content3" role="tabpanel">Content 3</section>
     </section>
+
+    <section id="button-roles" class="test-suite">
+      <h1>List with <code>&lt;li&gt;&lt;button role="tab"/&gt;&lt;/li&gt;</code></h1>
+      <ul role="tablist">
+        <li><button role="tab" aria-expanded="true" aria-controls="content1-b">Tab 1</button></li>
+        <li><button role="tab" aria-controls="content2-b">Tab 2</button></li>
+        <li><button role="tab" aria-controls="content3-b">Tab 3</button></li>
+      </ul>
+
+      <section id="content1-b" role="tabpanel">Content 1</section>
+      <section id="content2-b" role="tabpanel">Content 2</section>
+      <section id="content3-b" role="tabpanel">Content 3</section>
+    </section>
+
+    <section id="dl" class="test-suite">
+      <h1>Definition list</h1>
+
+      <dl role="tablist">
+        <dt role="tab" aria-expanded="true" aria-controls="defn-1"><button>Term 1</button></dt>
+        <dd id="defn-1" role="tabpanel">Definition 1</dd>
+        <dt role="tab" aria-controls="defn-2"><button>Term 2</button></dt>
+        <dd id="defn-2" role="tabpanel">Definition 2</dd>
+        <dt role="tab" aria-controls="defn-3"><button>Term 3</button></dt>
+        <dd id="defn-3" role="tabpanel">Definition 3</dd>
+      </dl>
+    </section>
+
+    <script>
+
+      var tabs = document.querySelectorAll('[role=tab]');
+      var forEach = Array.prototype.forEach;
+
+      document.getElementById('setup')
+        .addEventListener('click',
+                          forEach.bind(tabs, ariaTools.roles.tab.setup));
+
+      document.getElementById('teardown')
+        .addEventListener('click',
+                          forEach.bind(tabs, ariaTools.roles.tab.teardown));
+
+    </script>
 
   </body>
 </html>
