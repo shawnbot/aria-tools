@@ -36,14 +36,25 @@ const executeTabMethod = function(method, selector) {
 };
 
 module.exports = {
+  /**
+   * load the tab page
+   */
   load: function() {
-    return browser.url('/tab.html');
+    browser.url('/tab.html');
   },
 
+  /**
+   * set up tabs with an optional selector (defaults to `[role=tab]`)
+   * @param {String?} selector
+   */
   setup: function(selector) {
     executeTabMethod('setup', selector || TAB);
   },
 
+  /**
+   * tear down tabs with an optional selector (defaults to `[role=tab]`)
+   * @param {String?} selector
+   */
   teardown: function(selector) {
     executeTabMethod('teardown', selector || TAB);
   },
