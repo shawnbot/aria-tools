@@ -1,11 +1,42 @@
-[role=tab] {
-  background: #eee;
+code,
+pre,
+tt {
+  font-family: monospace;
+}
+
+button[role=tab],
+[role=tab] button {
+  background: transparent;
   border: none;
+  color: inherit;
   display: block;
   font: inherit;
   text-align: left;
   width: 100%;
   -webkit-appearance: none;
+}
+
+[role=tab],
+button[role=tab] {
+  background: #eee;
+}
+
+ul[role=tablist] {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul[role=tablist] > li {
+  flex: 1;
+  text-align: center;
+}
+
+li[role=tab] {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 [role=tab][aria-expanded=true] {
@@ -16,4 +47,3 @@
 [aria-hidden=true] {
   display: none;
 }
-
