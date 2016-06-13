@@ -5,7 +5,7 @@ The test suite for aria-tools uses [WebDriverIO] to run Selenium tests on real a
 ## Setup
 1. Make sure you're running Node v4 (?) or higher.
 1. Install all the depdendencies by running `npm install` in the project root directory.
-1. If you don't have Selenium Standalone, I recommend using [webdriver-manager] to install and run it:
+1. If you don't have Selenium Standalone, I recommend using [webdriver-manager] or [selenium-standalone] to install and run it:
 
   ```sh
   npm i -g webdriver-manager
@@ -28,4 +28,5 @@ The test suite for aria-tools uses [WebDriverIO] to run Selenium tests on real a
   ```
 
 [WebDriverIO]: http://webdriver.io/
-[webdriver-manager]: https://npm.im/webdriver-manager
+[webdriver-manager]: https://www.npmjs.com/package/webdriver-manager
+[selenium-standalone]: https://www.npmjs.com/package/selenium-standalone
